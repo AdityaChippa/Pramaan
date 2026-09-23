@@ -1,0 +1,77 @@
+# PRAMAAN training configuration. Paths are relative to the repository root unless absolute.
+seed: 1337
+work_dir: training/runs/default
+version: null            # null → UTC timestamp YYYYMMDD-HHMM at publish time
+
+split:
+  train: 0.70
+  val: 0.15               # validation is further halved by group: val_a (fusion + calibrators) / val_b (Platt, thresholds)
+  test: 0.15
+
+target_fpr: 0.05          # verdict band thresholds are chosen on val_b to hit this false-positive rate
+
+pretrained:
+  face_cnn:
+    url: https://github.com/SCLBD/DeepfakeBench/releases/download/v1.0.1/effnb4_best.pth
+    size: 70979261
+  aasist_l:
+    url: https://raw.githubusercontent.com/clovaai/aasist/main/models/weights/AASIST-L.pth
+    size: 426428
+    config_url: https://raw.githubusercontent.com/clovaai/aasist/main/config/AASIST-L.conf
+  univfd_probe:
+    url: https://raw.githubusercontent.com/Yuheng-Li/UniversalFakeDetect/main/pretrained_weights/fc_weights.pth
+    size: 4083
+  clip:
+    open_clip_model: ViT-L-14
+    open_clip_pretrained: openai
+
+budgets:
+  quick:
+    max_items_per_class: 1500       # per modality, after dedupe
+    video_frames_for_crops: 8
+    face:
+      epochs: 2
+      batch: 24
+      lr: 0.0003
+      trainable_blocks: 6            # last N MBConv blocks + head; earlier blocks frozen
+      max_train_crops: 6000
+      cpu_max_train_crops: 1200
+    univfd:
+      max_images: 3000
+    audio:
+      epochs: 3
+      batch: 32
+      lr: 0.0001
+      train_head_only: true
+      cpu_max_train_items: 600
+    features:
+      max_items_per_split: 200       # per modality for val_a / val_b / test
+    fusion:
+      C_grid: [0.01, 0.1, 1.0, 10.0]
+    quantize_max_auc_drop: 0.01
+  full:
+    max_items_per_class: 100000
+    video_frames_for_crops: 24
+    face:
+      epochs: 8
+      batch: 32
+      lr: 0.0002
+      trainable_blocks: 32
+      max_train_crops: 400000
+      cpu_max_train_crops: 5000
+    univfd:
+      max_images: 100000
+    audio:
+      epochs: 12
+      batch: 32
+      lr: 0.00005
+      train_head_only: false
+      cpu_max_train_items: 3000
+    features:
+      max_items_per_split: 3000
+    fusion:
+      C_grid: [0.001, 0.01, 0.1, 1.0, 10.0, 100.0]
+    quantize_max_auc_drop: 0.01
+
+publish:
+  chunk_mb: 45                      # below the 50 MB free-plan per-file limit; larger files are uploaded in parts

@@ -1,0 +1,35 @@
+# dependencies & builds
+node_modules/
+.next/
+out/
+.vercel/
+*.tsbuildinfo
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# secrets (commit only the .env.example files)
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# data, weights, run outputs
+datasets/
+backend/pretrained/
+backend/models_local/
+training/runs/
+*.onnx
+*.pth
+*.pt
+*.npz
+
+# editors / OS
+.DS_Store
+Thumbs.db
+.idea/
+supabase/.temp/

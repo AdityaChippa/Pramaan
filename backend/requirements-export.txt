@@ -1,0 +1,9 @@
+# Developer-machine only: needed by scripts/fetch_pretrained.py to build ONNX graphs.
+# Never installed in the Docker image. Install the CPU wheel of torch:
+#   pip install torch==2.4.1 --index-url https://download.pytorch.org/whl/cpu
+torch==2.4.1
+efficientnet_pytorch==0.7.1
+open_clip_torch==2.26.1
+onnx==1.16.2
+onnxruntime==1.19.2
+PyYAML==6.0.2

@@ -1,0 +1,10 @@
+# Training environment (Python 3.11). Install PyTorch FIRST with the command for your machine:
+#   CUDA 12.1:  pip install torch==2.4.1 --index-url https://download.pytorch.org/whl/cu121
+#   CPU only:   pip install torch==2.4.1 --index-url https://download.pytorch.org/whl/cpu
+# then: pip install -r training/requirements.txt
+-r ../backend/requirements.txt
+efficientnet_pytorch==0.7.1
+open_clip_torch==2.26.1
+onnx==1.16.2
+PyYAML==6.0.2
+tqdm==4.66.5
