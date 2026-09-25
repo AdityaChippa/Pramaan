@@ -1,4 +1,4 @@
-# PRAMAAN — explainable forensics for synthetic media
+# PRAMAAN — explainable forensics for synthetic media.
 
 > **प्रमाण (pramāṇa)** — Sanskrit for *proof*.
 
